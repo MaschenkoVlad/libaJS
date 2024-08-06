@@ -9,8 +9,6 @@ export function App(_, libaConfig) {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [name, setName] = useState("Anton");
 
-  console.log("isInfoModalOpen", isInfoModalOpen);
-
   // TODO: props and state???
   return {
     element,
@@ -20,6 +18,9 @@ export function App(_, libaConfig) {
 }
 
 App.render = ({ element, liba, props, localState }) => {
+  // const [isInfoModalOpen, setIsInfoModalOpen] = liba.useState(false);
+  // const [name, setName] = liba.useState("Anton");
+
   const { isInfoModalOpen, setIsInfoModalOpen } = props;
   console.log("App props", props);
 
@@ -52,5 +53,5 @@ App.render = ({ element, liba, props, localState }) => {
   element.appendChild(wrapper);
 
   // TODO:
-  // document.getElementById("root").append(element);
+  document.getElementById("root").append(element);
 };
