@@ -1,33 +1,22 @@
 import { Modal } from "./modal.js";
 
-export function App(_, libaConfig) {
-  const {
-    liba: { useState },
-  } = libaConfig;
-  const element = document.createDocumentFragment();
+export function App() {
+  // TODO: for some reason new DOM elements don't appear in root with createDocumentFragment
+  // const element = document.createDocumentFragment();
+  const element = document.createElement("div");
+  element.style.width = "100wh";
+  element.style.height = "100vh";
+  element.style.position = "relative";
 
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
-  const [name, setName] = useState("Anton");
-
-  // TODO: props and state???
   return {
     element,
-    localState: {},
-    props: { name, setName, isInfoModalOpen, setIsInfoModalOpen },
   };
 }
 
-App.render = ({ element, liba, props, localState }) => {
-  // const [isInfoModalOpen, setIsInfoModalOpen] = liba.useState(false);
-  // const [name, setName] = liba.useState("Anton");
-
-  const { isInfoModalOpen, setIsInfoModalOpen } = props;
-  console.log("App props", props);
-
-  const wrapper = document.createElement("div");
-  wrapper.style.width = "100wh";
-  wrapper.style.height = "100vh";
-  wrapper.style.position = "relative";
+App.render = ({ element, liba }) => {
+  const { useState } = liba;
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [name, setName] = useState("Anton");
 
   const button = document.createElement("button");
 
@@ -35,23 +24,21 @@ App.render = ({ element, liba, props, localState }) => {
     setIsInfoModalOpen((currentValue) => !currentValue);
   });
 
-  const text = isInfoModalOpen ? "Close modal" : "Open modal";
-  console.log("text", text);
+  const text = isInfoModalOpen ? `Close modal` : `Open modal`;
   const buttonText = document.createTextNode(text);
   button.appendChild(buttonText);
   button.style.margin = "0";
   button.style.position = "absolute";
   button.style.top = "50%";
   button.style.left = "50%";
-  wrapper.append(button);
+  element.append(button);
 
-  const modalComponent = liba.create(Modal, props);
+  const modalComponent = liba.create(Modal, {
+    name,
+    setName,
+    isInfoModalOpen,
+    setIsInfoModalOpen,
+  });
 
-  wrapper.append(modalComponent.element);
-
-  console.log("wrapper", wrapper);
-  element.appendChild(wrapper);
-
-  // TODO:
-  document.getElementById("root").append(element);
+  element.append(modalComponent.element);
 };

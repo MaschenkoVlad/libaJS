@@ -107,11 +107,11 @@ export const Liba = {
 
           renderLiba.queueIndex = 0;
 
-          componentInstance = createComponentInstance(
-            ComponentFunction,
-            props,
-            componentLiba
-          );
+          // componentInstance = createComponentInstance(
+          //   ComponentFunction,
+          //   props,
+          //   componentLiba
+          // );
           refresh();
         };
 

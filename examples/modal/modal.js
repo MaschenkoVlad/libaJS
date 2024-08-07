@@ -1,24 +1,24 @@
-export function Modal(props, libaConfig) {
-  const element = document.createDocumentFragment();
+import { Input } from "./input.js";
 
-  return {
-    element,
-    props,
-  };
-}
-
-Modal.render = ({ element, props }) => {
-  const { isInfoModalOpen, setIsInfoModalOpen, name } = props;
-
+export function Modal(props) {
   const dialogElement = document.createElement("dialog");
   dialogElement.style.position = "absolute";
   dialogElement.style.top = "35%";
   dialogElement.style.zIndex = "99";
 
+  return {
+    element: dialogElement,
+    props,
+  };
+}
+
+Modal.render = ({ element, props, liba }) => {
+  const { isInfoModalOpen, setIsInfoModalOpen, name, setName } = props;
+
   if (isInfoModalOpen) {
-    dialogElement.setAttribute("open", "open");
+    element.setAttribute("open", "open");
   } else {
-    dialogElement.removeAttribute("open");
+    element.removeAttribute("open");
   }
 
   const button = document.createElement("button");
@@ -34,8 +34,9 @@ Modal.render = ({ element, props }) => {
   );
   paragraph.appendChild(paragraphText);
 
-  dialogElement.append(paragraph);
-  dialogElement.append(button);
+  const inputElement = liba.create(Input, { setName });
 
-  element.appendChild(dialogElement);
+  element.append(paragraph);
+  element.append(button);
+  element.append(inputElement.element);
 };
